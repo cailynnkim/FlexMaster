@@ -15,7 +15,6 @@ jiter==0.13.0
 MarkupSafe==3.0.3
 numpy==2.2.6
 openai==2.20.0
-opencv-python==4.12.0.88
 pillow==12.0.0
 pydantic==2.12.5
 pydantic_core==2.41.5
