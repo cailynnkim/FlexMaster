@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Complete Your Routine - FlexMaster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .routine-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .routine-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #e8f4f8;
+      border: 1px solid #b8dce8;
+      font-size: 14px;
+      color: #0066cc;
+      font-weight: 500;
+    }
+
+    .progress-section {
+      text-align: right;
+    }
+
+    .progress-text {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      width: 200px;
+      height: 12px;
+      background: #e0e0e0;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4caf50, #66bb6a);
+      border-radius: 999px;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+
+    .xp-display {
+      font-size: 24px;
+      font-weight: 700;
+      color: #4caf50;
+      margin-top: 8px;
+    }
+
+    .exercise-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .exercise-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+    .exercise-card.completed {
+      background: #f1f8f4;
+      border: 2px solid #4caf50;
+    }
+
+    .exercise-card.completed::after {
+      content: '✓';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 32px;
+      color: #4caf50;
+      font-weight: bold;
+    }
+
+    .exercise-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+
+    .exercise-number {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      background: #0066cc;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 32px;
+      font-weight: 700;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .exercise-card.completed .exercise-number {
+      background: #4caf50;
+    }
+
+    .exercise-name {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      flex: 1;
+    }
+
+    .movement-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-mobility { background: #e3f2fd; color: #1976d2; }
+    .badge-activation { background: #fff3e0; color: #f57c00; }
+    .badge-stability { background: #f3e5f5; color: #7b1fa2; }
+    .badge-power { background: #ffebee; color: #c62828; }
+    .badge-balance { background: #e8f5e9; color: #2e7d32; }
+
+    .exercise-duration {
+      background: #0066cc;
+      color: white;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 16px;
+      margin-left: 12px;
+    }
+
+    .exercise-card.completed .exercise-duration {
+      background: #4caf50;
+    }
+
+    .exercise-notes {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+      padding-left: 44px;
+      margin-top: 8px;
+    }
+
+    .checkbox-wrapper {
+      padding-left: 44px;
+      margin-top: 12px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #0066cc;
+      font-size: 14px;
+    }
+
+    .exercise-card.completed .checkbox-label {
+      color: #4caf50;
+    }
+
+    .checkbox {
+      width: 24px;
+      height: 24px;
+      border: 2px solid #0066cc;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .exercise-card.completed .checkbox {
+      background: #4caf50;
+      border-color: #4caf50;
+    }
+
+    .xp-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+      z-index: 1000;
+      transition: transform 0.3s ease;
+    }
+
+    .xp-popup.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .xp-animation {
+      font-size: 72px;
+      margin-bottom: 16px;
+      animation: bounce 0.6s ease;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .xp-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: #4caf50;
+      margin-bottom: 8px;
+    }
+
+    .xp-label {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .complete-button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #4caf50, #66bb6a);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    }
+
+    .complete-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(76, 175, 80, 0.5);
+    }
+
+    .complete-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .safety-note {
+      background: #fff9e6;
+      border: 2px solid #ffd966;
+      border-left: 4px solid #ffd966;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      color: #cc8800;
+    }
+
+    .safety-note strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    .overlay.show {
+      display: block;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+      }
+
+      .progress-section {
+        text-align: left;
+        width: 100%;
+      }
+
+      .progress-bar {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/profile" class="back-link">← Back to Profile</a>
+
+    <div class="header">
+      <div class="header-content">
+        <div>
+          <div class="routine-title">🏋️ {{ exercise }} Warm-up</div>
+          <div class="routine-meta">
+            <span class="pill">🎯 {{ muscle_groups }}</span>
+            {% set total_time = warmups|sum(attribute='duration') %}
+            <span class="pill">⏱️ {{ (total_time / 60)|round(1) }} min total</span>
+          </div>
+        </div>
+        <div class="progress-section">
+          <div class="progress-text">Progress: <strong><span id="completed-count">0</span>/{{ warmups|length }}</strong></div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <div class="xp-display"><span id="total-xp">0</span> XP</div>
+        </div>
+      </div>
+    </div>
+
+    {% if safety %}
+    <div class="safety-note">
+      <strong>⚠️ Safety Reminder</strong>
+      {{ safety }}
+    </div>
+    {% endif %}
+
+    <div id="exercise-list">
+      {% for exercise in warmups %}
+        <div class="exercise-card" id="exercise-{{ loop.index0 }}" 
+             data-name="{{ exercise.name }}" 
+             data-movement="{{ exercise.movement_type }}">
+          <div class="exercise-header">
+            <div style="display: flex; align-items: center; flex: 1;">
+              <span class="exercise-number">{{ loop.index }}</span>
+              <span class="exercise-name">{{ exercise.name }}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="movement-badge badge-{{ exercise.movement_type.lower() }}">{{ exercise.movement_type }}</span>
+              <span class="exercise-duration">{{ exercise.duration }}s</span>
+            </div>
+          </div>
+          {% if exercise.notes %}
+          <div class="exercise-notes">{{ exercise.notes }}</div>
+          {% endif %}
+          <div class="checkbox-wrapper">
+            <label class="checkbox-label">
+              <div class="checkbox"></div>
+              <span>Mark as complete</span>
+            </label>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <button class="complete-button" id="complete-btn" disabled>
+      Complete all exercises to finish (0/{{ warmups|length }})
+    </button>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="xp-popup" id="xp-popup">
+    <div class="xp-animation">⭐</div>
+    <div class="xp-text">+<span id="popup-xp">10</span> XP</div>
+    <div class="xp-label" id="popup-type">Mobility Master</div>
+  </div>
+
+  <script>
+    const ROUTINE_ID = {{ routine_id }};
+    const XP_PER_EXERCISE = 10;
+    const BONUS_XP = 50;
+    const TOTAL_EXERCISES = {{ warmups|length }};
+
+    let completedExercises = new Set();
+    let totalXP = 0;
+
+    function toggleExercise(index) {
+      const card = document.getElementById(`exercise-${index}`);
+      const exerciseName = card.dataset.name;
+      const movementType = card.dataset.movement;
+      
+      if (completedExercises.has(index)) {
+        // Uncomplete
+        completedExercises.delete(index);
+        card.classList.remove('completed');
+        totalXP -= XP_PER_EXERCISE;
+      } else {
+        // Complete
+        completedExercises.add(index);
+        card.classList.add('completed');
+        totalXP += XP_PER_EXERCISE;
+        showXPPopup(XP_PER_EXERCISE, movementType);
+        
+        // Send to backend
+        fetch('/api/complete_exercise', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            routine_id: ROUTINE_ID,
+            exercise_name: exerciseName,
+            movement_type: movementType,
+            xp_earned: XP_PER_EXERCISE
+          })
+        }).catch(err => console.error('Error saving exercise:', err));
+      }
+
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const count = completedExercises.size;
+      const percentage = (count / TOTAL_EXERCISES) * 100;
+
+      document.getElementById('completed-count').textContent = count;
+      document.getElementById('progress-fill').style.width = percentage + '%';
+      document.getElementById('total-xp').textContent = totalXP;
+
+      const completeBtn = document.getElementById('complete-btn');
+      if (count === TOTAL_EXERCISES) {
+        completeBtn.disabled = false;
+        completeBtn.textContent = `Complete Routine & Earn +${BONUS_XP} Bonus XP 🎉`;
+      } else {
+        completeBtn.disabled = true;
+        completeBtn.textContent = `Complete all exercises to finish (${count}/${TOTAL_EXERCISES})`;
+      }
+    }
+
+    function showXPPopup(xp, type) {
+      const popup = document.getElementById('xp-popup');
+      const overlay = document.getElementById('overlay');
+      
+      document.getElementById('popup-xp').textContent = xp;
+      document.getElementById('popup-type').textContent = `${type} +${xp}XP`;
+      
+      popup.classList.add('show');
+      overlay.classList.add('show');
+
+      setTimeout(() => {
+        popup.classList.remove('show');
+        overlay.classList.remove('show');
+      }, 1500);
+    }
+
+    // Add click handlers to all exercise cards
+    document.querySelectorAll('.exercise-card').forEach((card, index) => {
+      card.addEventListener('click', () => toggleExercise(index));
+    });
+
+    // Complete routine button
+    document.getElementById('complete-btn').addEventListener('click', () => {
+      if (completedExercises.size === TOTAL_EXERCISES) {
+        totalXP += BONUS_XP;
+        document.getElementById('total-xp').textContent = totalXP;
+        showXPPopup(BONUS_XP, 'Routine Complete! 🎉');
+        
+        // Send completion to backend
+        fetch('/api/complete_routine', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            routine_id: ROUTINE_ID,
+            bonus_xp: BONUS_XP
+          })
+        }).then(() => {
+          setTimeout(() => {
+            alert(`Congratulations! You earned ${totalXP} total XP!\n\nYour progress has been saved.`);
+            window.location.href = '/profile';
+          }, 2000);
+        }).catch(err => console.error('Error completing routine:', err));
+      }
+    });
+
+    // Initialize
+    updateProgress();
+  </script>
+</body>
+</html>

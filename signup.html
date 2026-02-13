@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Sign Up - FlexMaster</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 40px;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .card {
+      padding: 30px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #0066cc;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    button {
+      margin-top: 24px;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 10px;
+      background: #0066cc;
+      color: white;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      font-size: 15px;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #0052a3;
+    }
+
+    .error {
+      background: #fff2f2;
+      border: 1px solid #ffd0d0;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      color: #d63031;
+      font-size: 14px;
+    }
+
+    .hint {
+      color: #666;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .link-section {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .link-section p {
+      color: #666;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .link-section a {
+      color: #0066cc;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .link-section a:hover {
+      text-decoration: underline;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 36px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-grid > div {
+      margin-top: 0;
+    }
+
+    .form-grid label {
+      margin-top: 0;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="logo">🏋️</div>
+      <h1>Join FlexMaster</h1>
+      <p class="subtitle">Create your account to start generating personalized warm-up routines</p>
+
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+
+      <form method="POST">
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" required autofocus />
+        <div class="hint">Choose a unique username</div>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" required />
+        <div class="hint">At least 6 characters recommended</div>
+
+        <div class="form-grid" style="margin-top: 16px;">
+          <div>
+            <label for="age">Age</label>
+            <input id="age" type="number" name="age" required min="13" max="120" />
+          </div>
+          
+          <div>
+            <label for="fitness_level">Fitness Level</label>
+            <select id="fitness_level" name="fitness_level" required>
+              <option value="">Select level</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="preference">Workout Preference</label>
+        <select id="preference" name="preference" required>
+          <option value="">Select preference</option>
+          <option value="quick">Quick (5-8 min)</option>
+          <option value="standard">Standard (10-15 min)</option>
+          <option value="thorough">Thorough (15-20 min)</option>
+          <option value="stretching-focused">Stretching-focused</option>
+        </select>
+        <div class="hint">Your preferred routine length and style</div>
+
+        <button type="submit">Create Account</button>
+      </form>
+
+      <div class="link-section">
+        <p>Already have an account? <a href="/login">Sign in</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
